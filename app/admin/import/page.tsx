@@ -9,7 +9,6 @@ export default function ImportPage(){
 const [key,setKey]=useState("");
 const [url,setUrl]=useState("");
 const [result,setResult]=useState<any>();
-const [imported,setImported]=useState(false);
 
 async function doImport(){
 
@@ -33,14 +32,11 @@ async function doImport(){
 
  console.log("IMPORT RESPONSE:", text);
 
- try {
-   setImported(JSON.parse(text));
- } catch {
-   setImported({
-     error:text || "Empty response"
-   });
- }
+ const data = JSON.parse(text);
+ 
+ alert(`Imported ${data.imported} players!`);
 
+ window.location.href = "/build";
 }
 
 async function preview(){
