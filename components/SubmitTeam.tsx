@@ -60,6 +60,10 @@ async function submit() {
   router.push(`/teams/${data.teamId}`);
 }
 
+
+  const cutoffPassed =
+    new Date() >= new Date("2026-07-18T11:30:00-07:00");
+
   return (
 
     <div className="mt-8 rounded-xl border border-zinc-800 p-6">
@@ -99,6 +103,7 @@ async function submit() {
 
 
       <button
+        disabled={cutoffPassed}
         onClick={submit}
         className="mt-5 rounded-xl bg-purple-600 px-6 py-3"
       >

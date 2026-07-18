@@ -6,6 +6,17 @@ export async function POST(req: Request) {
 
   const body = await req.json();
 
+  if (new Date() >= new Date("2026-07-18T11:30:00-07:00")) {
+    return NextResponse.json(
+      {
+        error: "Team submissions are closed",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+
   const {
     teamName,
     ownerTag,
