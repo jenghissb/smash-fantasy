@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model Tournament {
+  id String @id @default(cuid())
+
+  // Fantasy display
+  name String
+  eventName String?
+
+  // External sources
+  startggUrl String?
+  smashExplorerUrl String?
+  smashExplorerId String? @unique
+  bracketUrl String?
+
+  // Fantasy rules
+  budget Int @default(1600)
+  maxRosterSize Int @default(12)
+
+  submissionsOpen Boolean @default(true)
+
+  isActive Boolean @default(false)
+
+  players Player[]
+  teams Team[]
+
+  createdAt DateTime @default(now())
+}
+
+model Player {
+  id String @id @default(cuid())
+
+  tournamentId String
+  tournament Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+
+  entrantId String
+
+  gamertag String
+  seed Int
+  location String?
+
+  avatarUrl String?
+
+  placement Int?
+  score Int?
+  cost Int
+
+  createdAt DateTime @default(now())
+
+  teamPlayers TeamPlayer[]
+
+  @@unique([tournamentId, entrantId])
+}
+
+model Team {
+  id String @id @default(cuid())
+
+  tournamentId String
+  tournament Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+
+  teamName String
+  ownerTag String
+
+  browserId String
+
+  score Int @default(0)
+
+  players TeamPlayer[]
+
+  createdAt DateTime @default(now())
+}
+
+
+model TeamPlayer {
+  id String @id @default(cuid())
+
+  teamId String
+  playerId String
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, playerId])
+}
