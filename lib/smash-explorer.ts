@@ -32,7 +32,7 @@ export type SmashImportResult = {
 
 export async function scrapeEntrants(
   url:string
-):Promise<ImportedEntrant[]> {
+):Promise<SmashImportResult> {
 
 
   const response =
