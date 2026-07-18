@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getDemoTournament } from "@/lib/tournament";
 import TournamentHeader from "@/components/TournamentHeader";
-
+export const dynamic = 'force-dynamic';
 
 export default async function Home(){
 

@@ -1,6 +1,7 @@
 import { getDemoTournament } from "@/lib/tournament";
 import TeamBuilder from "./TeamBuilder";
 
+export const dynamic = 'force-dynamic';
 
 export default async function BuildPage() {
 
