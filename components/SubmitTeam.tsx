@@ -6,10 +6,8 @@ import { useRouter } from "next/navigation";
 
 
 export default function SubmitTeam({
-  tournamentId,
   players,
 }:{
-  tournamentId:string;
   players:any[];
 }) {
 
@@ -27,58 +25,40 @@ export default function SubmitTeam({
     useState("");
 
 
+async function submit() {
+  setError("");
 
-  async function submit() {
+  let response;
+  let data;
 
+  try {
+    response = await fetch("/api/teams", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        teamName,
+        ownerTag,
+        browserId: getBrowserId(),
+        playerIds: players.map((p) => p.id),
+      }),
+    });
 
-    setError("");
+    data = await response.json();
+    console.log("Response data:", data);
 
-
-    const response =
-      await fetch("/api/teams",{
-
-        method:"POST",
-
-        headers:{
-          "Content-Type":"application/json",
-        },
-
-        body:JSON.stringify({
-
-          tournamentId,
-
-          teamName,
-
-          ownerTag,
-
-          browserId:getBrowserId(),
-
-          playerIds:
-            players.map(
-              p=>p.id
-            ),
-
-        }),
-
-      });
-
-
-    const data =
-      await response.json();
-
-
-    if(!response.ok){
-      setError(data.error);
-      return;
-    }
-
-
-    router.push(
-      `/teams/${data.teamId}`
-    );
-
+  } catch (e) {
+    console.error("Network or JSON parsing error:", e);
+    setError("Something went wrong with the request.");
+    return; // Stop execution if the fetch completely failed
   }
 
+  if (!response || !response.ok) {
+    setError(data?.error || `Server error: ${response?.status}`);
+    return;
+  }
+
+  router.push(`/teams/${data.teamId}`);
+}
 
   return (
 

@@ -29,7 +29,6 @@ model Tournament {
   isActive Boolean @default(false)
 
   players Player[]
-  teams Team[]
 
   createdAt DateTime @default(now())
 }
@@ -61,9 +60,6 @@ model Player {
 
 model Team {
   id String @id @default(cuid())
-
-  tournamentId String
-  tournament Tournament @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
 
   teamName String
   ownerTag String

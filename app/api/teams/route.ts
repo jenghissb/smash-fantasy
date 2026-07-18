@@ -7,7 +7,6 @@ export async function POST(req: Request) {
   const body = await req.json();
 
   const {
-    tournamentId,
     teamName,
     ownerTag,
     browserId,
@@ -34,7 +33,6 @@ export async function POST(req: Request) {
   const existingBrowserTeam =
     await db.team.findFirst({
       where: {
-        tournamentId,
         browserId,
       },
     });
@@ -55,11 +53,7 @@ export async function POST(req: Request) {
 
 
   const teams =
-    await db.team.findMany({
-      where:{
-        tournamentId,
-      },
-    });
+    await db.team.findMany();
 
 
   const duplicateGamertag =
@@ -86,8 +80,6 @@ export async function POST(req: Request) {
     await db.team.create({
 
       data: {
-
-        tournamentId,
 
         teamName,
 
