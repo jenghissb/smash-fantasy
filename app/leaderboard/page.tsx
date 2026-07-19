@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import Link from "next/link";
 export const dynamic = 'force-dynamic';
 
 export default async function Leaderboard(){
@@ -9,7 +10,6 @@ export default async function Leaderboard(){
         score:"desc",
       },
     });
-
 
   return (
 
@@ -26,9 +26,11 @@ export default async function Leaderboard(){
         teams.map(
           (team,index)=>(
 
-            <div
+            <Link href={`/teams/${team.id}`}
               key={team.id}
-              className="rounded-xl border border-zinc-800 p-5"
+            >
+           <div
+              className="rounded-xl border border-zinc-800 p-5 cursor-pointer rounded-xl border p-4 hover:shadow-lg"
             >
 
               #{index+1}
@@ -41,8 +43,8 @@ export default async function Leaderboard(){
               <span className="float-right">
                 {team.score} pts
               </span>
-
             </div>
+            </Link>
 
           )
         )

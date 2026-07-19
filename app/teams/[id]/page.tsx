@@ -123,12 +123,20 @@ Seed #{tp.player.seed}
 
 </div>
 
+<div className="ml-auto text-right">
 <div className="font-semibold">
 
 ${tp.player.cost}
 
 </div>
 
+<div className="font-semibold text-sm text-zinc-400">
+
+score: {tp.player.score}
+
+</div>
+
+</div>
 </div>
 
 ))}
